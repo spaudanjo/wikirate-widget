@@ -10,7 +10,7 @@
 <body>
 	<!-- prepare a DOM container with width and height -->
 	<form id="company-search">
-		Company: <input type="text" id="company_name">
+		Company: <input type="text" id="company_name" value="Twenty-First Century Fox, Inc.">
 		<input type="submit" value="Show">
 	</form>
 	<div id="main" style="width: 1000px;height:400px;"></div>
@@ -31,8 +31,31 @@
 
 			function reqListener() {
 				var response = JSON.parse(this.responseText)
-				var companies = response.items.map(item => item.company)
-				var payscales = response.items.map(item => parseInt(item.value))
+				console.log(response);
+				createChart1(response.items); 
+				createChart2(response.items); 
+			}
+
+
+			function createChart2(items) {
+				// alert(companyName); 
+				const dataForSelectedCompany = items
+					.filter(item => item.company === companyName)[0];
+				console.log(dataForSelectedCompany);
+
+				if(dataForSelectedCompany) {
+					const metricValue = dataForSelectedCompany.value;
+					alert(`The company ${companyName} produced ${metricValue} tons of CO2 in 2017`);
+				}
+			}
+
+
+
+
+
+			function createChart1(items) {
+				var companies = items.map(item => item.company)
+				var payscales = items.map(item => parseInt(item.value))
 
 				chartPayscale(companies, payscales)
 			}
@@ -56,6 +79,10 @@
 				// use configuration item and data specified to show chart
 				myChart.setOption(option);
 			}
+
+
+
+
 		}
 
 
