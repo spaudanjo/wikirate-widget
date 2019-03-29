@@ -6,9 +6,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js"></script>
 </head>
 <body>
-    <!-- prepare a DOM container with width and height -->
+	<!-- prepare a DOM container with width and height -->
+	<form id="company-search">
+		Company: <input type="text" name="company_name">
+		<input type="submit" value="Show">
+	</form>
     <div id="main" style="width: 1000px;height:400px;"></div>
-    <script type="text/javascript">
+	
+	<script type="text/javascript">
+
+
+			function processForm(e) {
+				if (e.preventDefault) e.preventDefault();
+				alert("test");
+			};
+
+
+			const companySearchForm = document.getElementById('company-search');
+			if (companySearchForm.attachEvent) {
+				companySearchForm.attachEvent("submit", processForm);
+			} else {
+				companySearchForm.addEventListener("submit", processForm);
+			}
+
+
+
         // based on prepared DOM, initialize echarts instance
         var myChart = echarts.init(document.getElementById('main'));
 
