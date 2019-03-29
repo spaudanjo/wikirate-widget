@@ -6,11 +6,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js"></script>
 </head>
 <body>
+	<div>
+		<form>
+			<label>Company</label>
+			<input id="company" type="text" />
+			<input type="button" value="Search" onclick="chartPayscale()">
+		</form>
+	</div>
     <!-- prepare a DOM container with width and height -->
     <div id="main" style="width: 1000px;height:400px;"></div>
     <script type="text/javascript">
         // based on prepared DOM, initialize echarts instance
         var myChart = echarts.init(document.getElementById('main'));
+
+        var data
 
         var oReq = new XMLHttpRequest();
 		oReq.addEventListener("load", reqListener);
@@ -18,14 +27,16 @@
 		oReq.send();
 
 		function reqListener () {
-			var response = JSON.parse(this.responseText)
-	        var companies = response.items.map(item => item.company)
-	        var payscales = response.items.map(item => parseInt(item.value))
-	        
-	        chartPayscale(companies, payscales)
+			data = JSON.parse(this.responseText)
 		}
 
-		function chartPayscale(labels, values) {
+		function chartPayscale() {
+			var labels = data.items.filter(item => item.company == document.getElementById('company').value).map(item => item.company)
+	        var values = data.items.filter(item => item.company == document.getElementById('company').value).map(item => parseInt(item.value))
+
+	        labels.push('London average payscale to worker')
+	        values.push(200)
+
 			// specify chart configuration item and data
 	        var option = {
 	        	tooltip: {
