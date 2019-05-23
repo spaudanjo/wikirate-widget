@@ -69,22 +69,40 @@ class App extends Component {
     const that = this;
     fetch('https://wikirate.org/Question_Widget_GHG_emissions.json')
       .then(response => response.json())
+      .then(response => {console.log(response); return response; })
       .then(data => data.items)
-      .then(items => items
+      .then(items => _.chain(items)
         .filter(item => item.year === 2017)
-        .map(item => ({
-          canonicalName: item.url.split('+')[2], 
-          humanizedName: item.company
-        }))
-        )
-      .then(companies => _.uniqBy(companies, 'humanizedName'))
-      .then(companies => companies.map(company => ({
-        value: company.canonicalName,
-        label: company.humanizedName
-      })))
+        .groupBy('company')
+        .pickBy((items, companyName) => {
+          console.log('items');
+          console.log(items);
+          const hasScope1 = _.some(items, ['metric', 'Commons+Greenhouse Gas Emissions Scope 1']);
+          const hasScope2 = _.some(items, ['metric', 'Commons+Greenhouse Gas Emissions Scope 2']);
+          const hasScope1And2Combined = _.some(items, ['metric', 'Commons+Greenhouse Gas Emissions Scope 1 and 2 combined']);
+          const containsAllDesiredScopes = hasScope1 && hasScope2 && hasScope1And2Combined;
+          console.log('containsAllDesiredScopes'); 
+          console.log(containsAllDesiredScopes);
+          return containsAllDesiredScopes;
+        })
+        .value()
+
+        // .map(items => _.groupBy(items, 'company'))
+      )
+      //   .map(item => ({
+      //     canonicalName: item.url.split('+')[2], 
+      //     humanizedName: item.company
+      //   }))
+      //   )
+      // .then(companies => _.uniqBy(companies, 'humanizedName'))
+      // .then(companies => companies.map(company => ({
+      //   value: company.canonicalName,
+      //   label: company.humanizedName
+      // })))
       .then(companyOptions => {
+        console.log('companyOptions');
         console.log(companyOptions);
-        that.setState({ companyOptions })
+        // that.setState({ companyOptions })
       });
   }
 
