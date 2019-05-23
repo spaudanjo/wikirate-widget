@@ -5,6 +5,8 @@ import ReactEcharts from 'echarts-for-react';
 import logo from './logo.svg';
 import './App.css';
 
+import _ from 'lodash';
+
 
 class App extends Component {
   constructor(props) {
@@ -63,10 +65,18 @@ class App extends Component {
     const that = this;
     fetch('https://wikirate.org/Question_Widget_GHG_emissions.json')
       .then(response => response.json())
-      .then(data => data.companies.content)
+      .then(data => data.items)
+      .then(items => items
+        .filter(item => item.year === 2017)
+        .map(item => ({
+          canonicalName: item.url.split('+')[2], 
+          humanizedName: item.company
+        }))
+        )
+      .then(companies => _.uniqBy(companies, 'humanizedName'))
       .then(companies => companies.map(company => ({
-        value: company,
-        label: company
+        value: company.canonicalName,
+        label: company.humanizedName
       })))
       .then(companyOptions => {
         console.log(companyOptions);
@@ -136,7 +146,6 @@ class App extends Component {
   render() {
     return (
     <div className="App">
-    Test
       <Select
         options={this.state.companyOptions}
         value={this.state.selectedOption}
