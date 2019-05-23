@@ -18,19 +18,23 @@ class App extends Component {
     }
   }
 
-  handleChange = selectedCompanyOption => {
-    this.setState({ selectedCompanyOption});
-    this.getDataForCompanyAndUpdateChart();
+  handleChange = (selectedCompanyOption, b) => {
+    console.log('selectedCompanyOption, b');
+    console.log(selectedCompanyOption);
+    console.log(b);
+    this.setState({ selectedCompanyOption }, this.getDataForCompanyAndUpdateChart);
   }
 
   getDataForCompanyAndUpdateChart = () => {
     //TODO: normalizedCompanyName constant remove/replace with dynamic value
-    const normalizedCompanyName = 'Marks_and_Spencer_Group_plc';
+    // const normalizedCompanyName = 'Marks_and_Spencer_Group_plc';
+    const normalizedCompanyName = this.state.selectedCompanyOption.value;
+    console.log('this.state');
+    console.log(this.state);
 
-    const scope1DeferredData = fetch(`https://wikirate.org/CDP+Scope_1_Emissions+${normalizedCompanyName}+2019.json`)
-      .then(data => { return data.json() });
+    const scope1DeferredData = fetch(`https://wikirate.org/CDP+Scope_1_Emissions+${normalizedCompanyName}+2017.json`) .then(data => { return data.json() });
 
-    const scope2DeferredData = fetch(`https://wikirate.org/CDP+Scope_2_Emissions+${normalizedCompanyName}+2019.json`)
+    const scope2DeferredData = fetch(`https://wikirate.org/CDP+Scope_2_Emissions+${normalizedCompanyName}+2017.json`)
       .then(data => { return data.json() });
 
     Promise
