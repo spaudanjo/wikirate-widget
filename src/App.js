@@ -80,7 +80,8 @@ class App extends Component {
       .then(response => response.json())
       .then(response => {console.log(response); return response; })
       .then(data => data.items)
-      .then(items => _.chain(items)
+      .then(items => {
+        const BAR = _.chain(items)
         .filter(item => item.year === 2017)
         .groupBy('company')
         .pickBy((items, companyName) => {
@@ -93,13 +94,21 @@ class App extends Component {
           console.log('containsAllDesiredScopes'); 
           console.log(containsAllDesiredScopes);
           return containsAllDesiredScopes;
-        })
-        .map(x => {
+        });
+
+
+        const optionsForSuggestDropdownlist = BAR.map(x => {
           console.log("x: ");
           console.log(x);
           return x; 
         })
-        .map(itemsByOneCompany => ({
+        .value();
+
+        console.log('optionsForSuggestDropdownlist');
+        console.log(optionsForSuggestDropdownlist);
+        that.setState({ optionsForSuggestDropdownlist });
+
+        const lookupListOfCompaniesAndMetrics = BAR.map(itemsByOneCompany => ({
           value: itemsByOneCompany[0].url.split('+')[2], 
           label: itemsByOneCompany[0].company
         }))
@@ -118,6 +127,7 @@ class App extends Component {
         .value()
 
         // .map(items => _.groupBy(items, 'company'))
+      }
       )
       // .then(FOO => {
       //   console.log("FOO: ");
@@ -135,11 +145,11 @@ class App extends Component {
       //   value: company.canonicalName,
       //   label: company.humanizedName
       // })))
-      .then(companyOptions => {
-        console.log('companyOptions');
-        console.log(companyOptions);
-        that.setState({ companyOptions })
-      });
+      // .then(companyOptions => {
+      //   console.log('companyOptions');
+      //   console.log(companyOptions);
+      //   that.setState({ companyOptions })
+      // });
   }
 
   getEchartsOptions = () => ({
