@@ -67,6 +67,15 @@ class App extends Component {
   componentDidMount() {
     console.log("COMPONENT DID MOIUNT");
     const that = this;
+
+    // GOAL: build an array of objects of only companies with scope 1, scope 2 and both combined available and for year 2017, 
+    // with a data structure for the suggested search field that looks like: 
+    // {
+    //    companyName
+    //    canonicalName
+    //    metricValue
+    // }
+
     fetch('https://wikirate.org/Question_Widget_GHG_emissions.json')
       .then(response => response.json())
       .then(response => {console.log(response); return response; })
@@ -85,10 +94,37 @@ class App extends Component {
           console.log(containsAllDesiredScopes);
           return containsAllDesiredScopes;
         })
+        .map(x => {
+          console.log("x: ");
+          console.log(x);
+          return x; 
+        })
+        .map(itemsByOneCompany => ({
+          value: itemsByOneCompany[0].url.split('+')[2], 
+          label: itemsByOneCompany[0].company
+        }))
+        // .map(companies => companies.map(company => ({
+        //   value: company.canonicalName,
+        //   label: company.humanizedName
+        // })))
+
+        // .mapValues(itemsByOneCompany => {
+        //   console.log("itemsByOneCompany:");
+        //   console.log(itemsByOneCompany);
+        //   return {
+        //     scope: itemsByOneCompany.metric };
+        // }
+        // )
         .value()
 
         // .map(items => _.groupBy(items, 'company'))
       )
+      // .then(FOO => {
+      //   console.log("FOO: ");
+      //   console.log(FOO);
+      // })
+
+
       //   .map(item => ({
       //     canonicalName: item.url.split('+')[2], 
       //     humanizedName: item.company
@@ -102,7 +138,7 @@ class App extends Component {
       .then(companyOptions => {
         console.log('companyOptions');
         console.log(companyOptions);
-        // that.setState({ companyOptions })
+        that.setState({ companyOptions })
       });
   }
 
