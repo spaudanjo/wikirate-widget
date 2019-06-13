@@ -97,21 +97,25 @@ class App extends Component {
         });
 
 
-        const optionsForSuggestDropdownlist = BAR.map(x => {
-          console.log("x: ");
-          console.log(x);
-          return x; 
-        })
+        const optionsForSuggestDropdownlist = BAR.map(itemsByOneCompany => ({
+          value: itemsByOneCompany[0].url.split('+')[2], 
+          label: itemsByOneCompany[0].company
+        }))
         .value();
 
         console.log('optionsForSuggestDropdownlist');
         console.log(optionsForSuggestDropdownlist);
-        that.setState({ optionsForSuggestDropdownlist });
+        that.setState({ companyOptions: optionsForSuggestDropdownlist });
 
-        const lookupListOfCompaniesAndMetrics = BAR.map(itemsByOneCompany => ({
-          value: itemsByOneCompany[0].url.split('+')[2], 
-          label: itemsByOneCompany[0].company
-        }))
+        // const lookupListOfCompaniesAndMetrics = BAR.map(itemsByOneCompany => ({
+        //   value: itemsByOneCompany[0].url.split('+')[2], 
+        //   label: itemsByOneCompany[0].company
+        // }))
+
+
+        // console.log("lookupListOfCompaniesAndMetrics");
+        // console.log(lookupListOfCompaniesAndMetrics);
+
         // .map(companies => companies.map(company => ({
         //   value: company.canonicalName,
         //   label: company.humanizedName
@@ -124,7 +128,7 @@ class App extends Component {
         //     scope: itemsByOneCompany.metric };
         // }
         // )
-        .value()
+        // .value()
 
         // .map(items => _.groupBy(items, 'company'))
       }
