@@ -30,10 +30,26 @@ class App extends Component {
     console.log('yyy:')
     console.log(this.state.metricsPerCompany)
     const company = this.state.selectedCompanyOption.value
-    const metrics = this.state.metricsPerCompany.filter(metricsPerCompany => metricsPerCompany.company == company)
+    const metricsPerCompany = this.state.metricsPerCompany.filter(metricsPerCompany => metricsPerCompany.company == company)[0]
 
     console.log('metrics per company:')
-    console.log(metrics)
+    console.log(metricsPerCompany.metrics)
+
+    const emissionValuesPerScope = metricsPerCompany.metrics
+      .filter(metric => metric.name.startsWith('Commons+Greenhouse Gas Emissions Scope 1+') || metric.name.startsWith('Commons+Greenhouse Gas Emissions Scope 2+'))
+      .map(metric => ({
+        value: metric.value,
+        name: metric.name
+      }));
+
+      const chartData = {
+        companyName: metricsPerCompany.metrics[0].company,
+        chartSeriesData: emissionValuesPerScope
+      };
+
+      this.setState({
+        chartData
+      });
   }
 
   // getDataForCompanyAndUpdateChart = () => {
