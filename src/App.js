@@ -53,7 +53,8 @@ class App extends Component {
   componentDidMount() {
     const that = this;
 
-    fetch('https://wikirate.org/Question_Widget_GHG_emissions.json')
+    // fetch('https://wikirate.org/Question_Widget_GHG_emissions.json')
+    fetch('mocked-wikirate-emissions-data.json')
       .then(response => response.json())
       .then(response => { console.log(response); return response; })
       .then(data => data.items)
