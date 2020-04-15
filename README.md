@@ -6,3 +6,4 @@ This Widget allows the easy integration of chart visualisations of the data of f
 ## How to use it
 * Put these two tags into your HTML head (for the JS and CSS assets of this Widget library):
   * 
+* PUT TARGET DIV
