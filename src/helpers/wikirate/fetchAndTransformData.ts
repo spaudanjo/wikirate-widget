@@ -1,22 +1,17 @@
 import axios from 'axios';
 import transformFetchedDataIntoChartData from './transformData';
 
-function getUrlForYear(year: number) {
-    return `https://wikirate.org/Commons+Greenhouse_Gas_Emissions_Scope_1_and_2_combined+Answer.json?filter%5Bproject%5D=Question+Widget%3A+GHG+emissions&view=compact&filter[year]=${year}`;
-    // return `https://wikirate.org/Commons+Greenhouse_Gas_Emissions_Scope_1_and_2_combined+Answer.json?filter%5Bproject%5D=Question+Widget%3A+GHG+emissions&view=compact`; //&filter[year]=${year}`;
-}
-
-function yearToResultDataPromise(year: number) {
+function answersEndpointToResultDataPromise(answersEndpoint: string) {
     return axios
-    .get(getUrlForYear(year))
+    .get(answersEndpoint)
     .then(result => result.data)
 }
 
-export default function fetchAndTransformData(yearsToShow: number[], numberOfTopAnswersToShow: number) {
-    const callsForAllYears = yearsToShow
-        .map(yearToResultDataPromise);
+export default function fetchAndTransformData(answersEndpoints: string[], numberOfTopAnswersToShow: number) {
+    const answerEndpointCalls = answersEndpoints
+        .map(answersEndpointToResultDataPromise);
 
-    const combinedPromiseOfDataForAllYears = Promise.all(callsForAllYears);
+    const combinedPromiseOfDataForAllYears = Promise.all(answerEndpointCalls);
 
     return combinedPromiseOfDataForAllYears.then((fetchedDataForAllYears: any) => transformFetchedDataIntoChartData(fetchedDataForAllYears, numberOfTopAnswersToShow));
 }

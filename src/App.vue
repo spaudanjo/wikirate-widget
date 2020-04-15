@@ -8,7 +8,7 @@
 <template>
   <div class="widget-container">
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <WikirateWidget v-bind:number-of-top-answers-to-show="numberOfTopAnswersToShow" v-bind:years-to-show="yearsToShow" />
+    <WikirateWidget v-bind:number-of-top-answers-to-show="numberOfTopAnswersToShow" v-bind:answer-endpoints="answerEndpoints" />
   </div>
 </template>
 
@@ -18,7 +18,7 @@ import WikirateWidget from './components/WikirateWidget.vue';
 export default {
   name: 'App',
   props: [
-    'years-to-show', 
+    'answer-endpoints', 
     'number-of-top-answers-to-show'
   ],
   components: {

@@ -32,15 +32,15 @@ export default class WikirateWidget extends Vue {
 
   chartDataByMetric: any[] = [];
 
-  @Prop({default: [1900]}) 
-  yearsToShow!: number[]
+  @Prop({default: []}) 
+  answerEndpoints!: string[]
 
   @Prop({default: 3})
   numberOfTopAnswersToShow!: number;
 
   mounted() {
     //TODO: improve type/error handling
-    fetchAndTransformData(this.yearsToShow, this.numberOfTopAnswersToShow)
+    fetchAndTransformData(this.answerEndpoints, this.numberOfTopAnswersToShow)
     .then(chartDataByMetric => this.chartDataByMetric = chartDataByMetric)
   }
 
