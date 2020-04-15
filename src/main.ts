@@ -7,7 +7,6 @@ interface WidgetOptions {
     answerEndpoints: string[];
 }
 const WikirateWidget = {
-    
     renderWidget: function ({element, numberOfTopAnswersToShow, answerEndpoints}: WidgetOptions) {
         Vue.config.productionTip = false
         return new Vue({
