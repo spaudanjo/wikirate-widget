@@ -1,11 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+interface WidgetOptions {
+    element: string;
+    numberOfTopAnswersToShow: number;
+    yearsToShow: number[];
+}
 const WikirateWidget = {
-    renderWidget: function (el: string, numberOfTopAnswersToShow: number, yearsToShow: number[]) {
+    
+    renderWidget: function ({element, numberOfTopAnswersToShow, yearsToShow}: WidgetOptions) {
         Vue.config.productionTip = false
         return new Vue({
-            el: el,
+            el: element,
             props: ['numberOfTopAnswersToShow', 'years'],
             render: h => h(App, { props: { numberOfTopAnswersToShow, yearsToShow } })
         });
@@ -25,7 +31,11 @@ declare global {
 })(window);
 
 
-WikirateWidget.renderWidget("#app", 10, [2018, 2017]);
+WikirateWidget.renderWidget({
+    element: "#app", 
+    numberOfTopAnswersToShow: 10, 
+    yearsToShow: [2018, 2017]
+});
 
 // import vueCustomElement from 'vue-custom-element'
 
