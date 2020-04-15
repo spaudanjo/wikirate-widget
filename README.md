@@ -7,3 +7,9 @@ This Widget allows the easy integration of chart visualisations of the data of f
 * Put these two tags into your HTML head (for the JS and CSS assets of this Widget library):
   * 
 * PUT TARGET DIV
+* 
+
+### Options
+* element
+* numberOfTopAnswersToShoow
+* answersEndpoints
