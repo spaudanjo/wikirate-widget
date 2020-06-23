@@ -11,8 +11,11 @@
 </style>
 
 <template>
-  <div class="chart-container">
-    <WikirateEchart v-for="chartData in this.chartDataByMetric" :key="chartData.metaData.metricId" v-bind:chartData="chartData" v-bind:showMetricTitlesForSubcharts="showMetricTitlesForSubcharts"/>
+  <div>
+    <span>{{title}}</span>
+    <div class="chart-container">
+      <WikirateEchart v-for="chartData in this.chartDataByMetric" :key="chartData.metaData.metricId" v-bind:chartData="chartData" v-bind:showMetricTitlesForSubcharts="showMetricTitlesForSubcharts"/>
+    </div>
   </div>
 </template>
 
