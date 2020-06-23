@@ -20,6 +20,8 @@ export default class WikirateEchart extends Vue {
 
   @Prop({default: []}) 
   chartData!: any[]; 
+  @Prop({default: true}) 
+  showMetricTitlesForSubcharts!: boolean;
 
   drawChart(chartOption: any) {
     const chartContainer = this.$refs["chart"];
@@ -27,9 +29,10 @@ export default class WikirateEchart extends Vue {
     myChart.setOption(chartOption);
   }
 
-  generateEchartsOptions = (chartData: any) => {
+  generateEchartsOptions = (chartData: any, showMetricTitlesForSubcharts: boolean) => {
     
-    const chartTitle = `Top ${chartData.metaData.numberOfTopAnswersToShow} companies: \n ${chartData.metaData.metricName}`;
+    debugger; 
+    const chartTitle = showMetricTitlesForSubcharts && `Top ${chartData.metaData.numberOfTopAnswersToShow} companies: \n ${chartData.metaData.metricName}`;
     
     return {
       title: {
@@ -83,7 +86,7 @@ export default class WikirateEchart extends Vue {
   };
 
   mounted() {
-      const echartOptions = this.generateEchartsOptions(this.chartData);
+      const echartOptions = this.generateEchartsOptions(this.chartData, this.showMetricTitlesForSubcharts);
       this.drawChart(echartOptions);
   }
   

@@ -12,7 +12,7 @@
 
 <template>
   <div class="chart-container">
-    <WikirateEchart v-for="chartData in this.chartDataByMetric" :key="chartData.metaData.metricId" v-bind:chartData="chartData" />
+    <WikirateEchart v-for="chartData in this.chartDataByMetric" :key="chartData.metaData.metricId" v-bind:chartData="chartData" v-bind:showMetricTitlesForSubcharts="showMetricTitlesForSubcharts"/>
   </div>
 </template>
 
@@ -33,12 +33,19 @@ export default class WikirateWidget extends Vue {
   chartDataByMetric: any[] = [];
 
   @Prop({default: []}) 
-  answerEndpoints!: string[]
+  answerEndpoints!: string[];
 
   @Prop({default: 3})
   numberOfTopAnswersToShow!: number;
 
+  @Prop({default: ""}) 
+  title!: string;
+
+  @Prop({default: true})
+  showMetricTitlesForSubcharts!: boolean;
+
   mounted() {
+    debugger;
     //TODO: improve type/error handling
     fetchAndTransformData(this.answerEndpoints, this.numberOfTopAnswersToShow)
     .then(chartDataByMetric => this.chartDataByMetric = chartDataByMetric)
